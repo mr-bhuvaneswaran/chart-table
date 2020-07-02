@@ -171,7 +171,7 @@ export class AppComponent implements OnInit {
         datasets: [
           {
             data: this.chartDataSource.List.map(x => parseFloat(x.quantity)),
-            backgroundColor: ['red', 'green', 'yellow', 'blue', 'orange']
+            backgroundColor: this.chartDataSource.List.map( x => this.getRandomColor())
           }
         ]
       },
@@ -202,5 +202,14 @@ export class AppComponent implements OnInit {
   public clearFilter(event) {
     this.dataSources.filter = null;
   }
+
+  public getRandomColor() {
+    const letters = '0123456789ABCDEF'.split('');
+    let color = '#';
+    for (let i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
 
 }
