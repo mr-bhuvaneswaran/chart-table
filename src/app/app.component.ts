@@ -170,7 +170,8 @@ export class AppComponent implements OnInit {
         labels: this.chartDataSource.List.map(x => x.ediId),
         datasets: [
           {
-            data: this.chartDataSource.List.map(x => parseFloat(x.quantity))
+            data: this.chartDataSource.List.map(x => parseFloat(x.quantity)),
+            backgroundColor: ['red', 'green', 'yellow', 'blue', 'orange']
           }
         ]
       },
