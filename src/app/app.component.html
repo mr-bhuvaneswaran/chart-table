@@ -1,13 +1,13 @@
-<div style="display: block">
-  <canvas baseChart
-    [datasets]="barChartData"
-    [labels]="barChartLabels"
-    [options]="barChartOptions"
-    [plugins]="barChartPlugins"
-    [legend]="barChartLegend"
-    [chartType]="barChartType"
-    (chartClick)="chartClicked($event)">
-  </canvas>
+<div class="container">
+	<div class="d-flex">
+		<div class="col">
+			<div class="card">
+				<div class="card-body p-1 m-0">
+					<canvas id="canvas"></canvas>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <button (click)="clearFilter($event)">Clear Filter</button>

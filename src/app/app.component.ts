@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import { ChartOptions, ChartType, ChartDataSets } from 'chart.js';
-import { Label } from 'ng2-charts';
+import { Chart, ChartOptions, ChartType, ChartDataSets } from 'chart.js';
 
 @Component({
   selector: 'app-root',
@@ -156,37 +155,42 @@ export class AppComponent implements OnInit {
         }
     ]};
 
+    public chart: Chart;
+
   displayedColumnss = ['ediId', 'supplierName', 'supplierId', 'quantity'];
 
   dataSources = new MatTableDataSource(this.tableDataSource.List);
 
-  public barChartOptions: ChartOptions = {
-    responsive: true,
-    plugins: {
-      datalabels: {
-        anchor: 'end',
-        align: 'end',
-      }
-    }
-  };
-
-  public barChartLabels: Label[] = this.chartDataSource.List.map(item => item.ediId);
-  public barChartType: ChartType = 'bar';
-  public barChartLegend = false;
-
-  public barChartData: ChartDataSets[] = [
-    { data: this.chartDataSource.List.map(item => parseFloat(item.quantity) )  }
-  ];
-
   constructor() { }
 
   ngOnInit() {
+    this.chart = new Chart('canvas', {
+      type: 'bar',
+      data: {
+        labels: this.chartDataSource.List.map(x => x.ediId),
+        datasets: [
+          {
+            data: this.chartDataSource.List.map(x => parseFloat(x.quantity))
+          }
+        ]
+      },
+      options: {
+        legend: {
+           display: false
+        },
+        tooltips: {
+           enabled: false
+        }
+      }
+    });
+    this.chart.options.onClick = (event) => { this.chartClicked(event); };
     this.dataSources.filterPredicate = (data, filter): boolean =>  data.ediId === filter;
   }
 
-  public chartClicked({ active }: { event: MouseEvent, active: {}[] }): void {
-    if (active[0] && active[0]._model) {
-      this.applyFilter(active[0]._model.label);
+  public chartClicked(event) {
+    const active = this.chart.getElementsAtEvent(event);
+    if (active[0] && active[0]["_model"]) {
+      this.applyFilter(active[0]["_model"].label);
     }
   }
 
