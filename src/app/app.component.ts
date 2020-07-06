@@ -504,7 +504,12 @@ export class AppComponent implements OnInit {
            display: false
         },
         tooltips: {
-           enabled: false
+           callbacks: {
+            label: (tooltipItem, data) => {
+                const label = tooltipItem.xLabel.toString() || '';
+                return this.getToolTipForDate(label);
+            }
+        }
         },
         scales: {
           yAxes: [{
@@ -595,5 +600,13 @@ export class AppComponent implements OnInit {
     this.chart.data.labels = [];
     this.chart.data.datasets[0].data = [];
     this.chart.update();
-}
+  }
+
+  private getToolTipForDate(dateString: string) {
+    return this.chartDataSource.List.filter(item =>
+      (dateString.includes(':') ?
+      this.getDateWithTime(item.assumedDeliveryDate) :
+      this.getDateFormatted(item.assumedDeliveryDate)) === dateString)
+    .map(item => `${item.ediId} : ${item.quantity}`);
+  }
 }
