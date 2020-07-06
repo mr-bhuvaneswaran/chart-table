@@ -10,7 +10,7 @@
 	</div>
 </div>
 
-<button (click)="clearFilter($event)">Clear Filter</button>
+<button *ngIf="isFilterApplied" (click)="clearFilter($event)">Clear Filter</button>
 
 
 <table mat-table  id="ExampleMaterialTable" [dataSource]="dataSources"  class="mat-elevation-z8" style="width: 100%;" matSort >
