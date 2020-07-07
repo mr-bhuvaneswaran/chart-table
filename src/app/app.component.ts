@@ -480,7 +480,7 @@ export class AppComponent implements OnInit {
   public chart: Chart;
   public isFilterApplied  = false;
 
-  displayedColumnss = ['ediId', 'supplierName', 'supplierId', 'quantity'];
+  displayedColumnss = Object.keys(this.tableDataSource.List[0]);
 
   dataSources = new MatTableDataSource(this.tableDataSource.List);
 
